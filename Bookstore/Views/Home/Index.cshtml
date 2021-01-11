@@ -1,35 +1,60 @@
 ﻿
-@{
-    Layout = null;
+
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Online Book Store App</h1>
+        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    </div>
+
+    <div class="container">
+        <p class="lead display-4">
+            <a class="btn btn-primary" href="#" role="button">Learn more</a>
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: auto;margin-bottom: 5px;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: auto;margin-bottom:5px;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="width: auto;margin-bottom:5px;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/Book/GetBook/" class="btn btn-primary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>    
+
+@section customscripts {
+    <script>
+        $(document).ready(function () {
+           // alert("Page is loaded");
+        });
+    </script>
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>View</title>
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
-</head>
-<body class="container">
-    <h1 class="h1">Welcome to Book Store App</h1>
-    <h3 class="h3">@DateTime.Now.ToString("dd-MM-yyyy")</h3>
-
-    <input type="button" class="btn-danger" value="View Summary" />
-    @{ 
-        for (int i = 0; i < 9; i++)
-        {
-            @if(i == 5)
-            {
-                <h1 class="h1">@i</h1>
-            }
-            else
-            { 
-                <h3 class="h3">@i</h3>
-            }            
-            <hr />
-        }
-    }
-</body>
-</html>

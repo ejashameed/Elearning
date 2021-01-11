@@ -17,6 +17,7 @@ namespace Bookstore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +34,8 @@ namespace Bookstore
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                //endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(name:"Default",pattern:"{Controller=Home}/{action=Index}/{Id?}");
             });
         }
     }

@@ -1,5 +1,8 @@
-﻿body {
-    background-color: lightgray;
+﻿body {    
+    padding-right:0px;
+    padding-left: 0px;
+    margin-right:0px;
+    margin-left:0px;
 }
 
 .logo {
@@ -7,3 +10,15 @@
     width: 200px;
 }
 
+.jumbotron {
+    margin-right:0px;
+    margin-left:0px;
+}
+
+.footer {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    white-space:nowrap;
+    line-height:60px;
+}
