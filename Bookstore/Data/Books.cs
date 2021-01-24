@@ -14,7 +14,10 @@ namespace Bookstore.Data
         public string Category { get; set; }
         public string Language { get; set; }
         public int TotalPages { get; set; }
+        public String  CoverImageUrl { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public ICollection<BookGallery> BookGallery { get; set; }
     }
 }

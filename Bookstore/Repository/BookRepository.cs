@@ -18,22 +18,33 @@ namespace Bookstore.Repository
         }
         public async Task<int> AddNewBook(BookModel bookModel)
         {
-            var book = new Books()
+            var newBook = new Books()
             {
                 Title = bookModel.Title,
                 Author = bookModel.Author,
                 Category = "",
                 TotalPages = bookModel.TotalPages,
                 Description = bookModel.Description,
+                CoverImageUrl = bookModel.CoverImageUrl,
                 Language = bookModel.Language,
                 CreatedDate = DateTime.UtcNow,
-                UpdatedDate = DateTime.UtcNow                
+                UpdatedDate = DateTime.UtcNow                                                                
             };
 
-           await _context.Books.AddAsync(book);
+            // add gallery images
+            newBook.BookGallery = new List<BookGallery>();
+            foreach (var image in bookModel.Gallery)
+            {
+                newBook.BookGallery.Add(new BookGallery()
+                {
+                    ImageUrl = image.ImageUrl,
+                    Name = image.Name
+                });
+            }            
+           await _context.Books.AddAsync(newBook);
            await _context.SaveChangesAsync();
 
-           return book.Id;
+           return newBook.Id;
         }
         public async Task<List<BookModel>> GetAllBooks()
         {
@@ -49,7 +60,9 @@ namespace Bookstore.Repository
                         Author = book.Author,
                         TotalPages = book.TotalPages,
                         Language = book.Language,
-                        Description = book.Description
+                        Description = book.Description,
+                        CoverImageUrl = book.CoverImageUrl
+                        
                     });
                 }
             }

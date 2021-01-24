@@ -28,7 +28,8 @@ namespace Bookstore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddRazorPages().AddRazorRuntimeCompilation()
+            .AddViewOptions(options => options.HtmlHelperOptions.ClientValidationEnabled = true);
 
             services.AddDbContextPool<BookStoreContext>(options =>
                 options.UseSqlServer(Configuration["AzureSqlServer:ConnectionString"])

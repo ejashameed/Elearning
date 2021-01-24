@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bookstore.Models;
 using Bookstore.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,9 +15,11 @@ namespace Bookstore.Controllers
     public class BookController : Controller
     {
         private readonly BookRepository _bookRepository;
-        public BookController(BookRepository bookRepository)
+        private IWebHostEnvironment _webHostEnvironment;
+        public BookController(BookRepository bookRepository, IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<ViewResult> GetAllBooks()
         {
@@ -52,6 +57,29 @@ namespace Bookstore.Controllers
         {            
             if(ModelState.IsValid)
             {
+                //upload a single cover photo
+                if(bookModel.CoverPhotos != null)
+                {
+                    string folder = "images/Books/cover/";
+                    bookModel.CoverImageUrl = await UploadImage(folder, bookModel.CoverPhotos);
+                }
+                //upload gallery images
+                if (bookModel.GalleryImages != null)
+                {
+                    string folder = "images/Books/gallery/";
+                    bookModel.Gallery = new List<GalleryModel>();
+
+                    foreach (var file in bookModel.GalleryImages)
+                    {
+                        var gallery = new GalleryModel()
+                        {
+                            Name = file.Name,
+                            ImageUrl = await UploadImage(folder, file)
+                        };
+                        bookModel.Gallery.Add(gallery);
+                    }                   
+                }
+
                 int id = await _bookRepository.AddNewBook(bookModel);
                 if (id > 0)
                 {
@@ -64,6 +92,14 @@ namespace Bookstore.Controllers
             }
             ViewBag.CategoryList = new SelectList(GetCategories(), "Id", "Text");
             return View();
+        }
+
+        private async Task<String> UploadImage(String folderPath, IFormFile file)
+        {
+            folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;           
+            string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            return "/" + folderPath;
         }
 
         private List<LanguageModel> GetLanguages()
