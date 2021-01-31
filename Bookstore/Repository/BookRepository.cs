@@ -73,16 +73,38 @@ namespace Bookstore.Repository
             var book = await _context.Books.Where(x => x.Id == Id).FirstOrDefaultAsync();
             //_context.Books.FromSqlRaw
 
+            if(book !=null) 
+            {
+
+            }
             var bookModel =  new BookModel()
-             {
+            {
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
                 TotalPages = book.TotalPages,
                 Language = book.Language,
-                Description = book.Description
+                Description = book.Description,
+                //Gallery = book.BookGallery.Select(g => new GalleryModel()
+                //{
+                //    Id = g.Id,
+                //    Name = g.Name,
+                //    ImageUrl = g.ImageUrl
+                //}
+                //).ToList()
                 
             };
+            bookModel.Gallery = new List<GalleryModel>();
+            var bookGallery = _context.BookGallery.Where(x => x.BookId == book.Id).ToList();
+            foreach (var image in bookGallery)
+            {
+                bookModel.Gallery.Add(new GalleryModel()
+                {
+                    Id = image.Id,
+                    Name = image.Name,
+                    ImageUrl = image.ImageUrl
+                });
+            }
             return bookModel;                
         }
 

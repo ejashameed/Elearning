@@ -1,0 +1,16 @@
+﻿@model BookModel
+<div class="card mb-4 shadow-sm">
+
+    <img alt="Card image cap" class="card-img-top img-fluid" src="@Model.CoverImageUrl" style="width: 25rem; height: 20rem;" />
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Description</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <a asp-controller="Book" asp-action="GetBook" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+            <small class="text-muted">@Model.Author</small>
+        </div>
+    </div>
+</div>

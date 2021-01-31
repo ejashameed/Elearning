@@ -9,6 +9,7 @@ using Bookstore.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,11 @@ namespace Bookstore
 
             services.AddScoped<BookRepository, BookRepository>();
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<BookStoreContext>();
+
+            services.AddScoped<IAccountRepository, AccountRepository>();
+
             //services.AddSingleton(IServiceProvider =>
             // new BlobServiceClient(connectionString:Configuration.GetValue<String>(key:"AzureBlobStorageConnectionString")));
 
@@ -54,6 +60,8 @@ namespace Bookstore
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
